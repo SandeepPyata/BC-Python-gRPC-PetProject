@@ -1,0 +1,142 @@
+syntax = "proto3";
+
+package mainFile;
+
+
+
+service Ride
+{
+    // Creation of roles - INSERT
+    rpc CreateCustomer(CustomerDetails) returns(CustomerDetails){};
+    rpc CreateAdmin(AdminDetails) returns(AdminDetails){};
+    rpc CreateDriver(DriverDetails) returns(DriverDetails){};
+
+    // Updating details of all users - ALTER
+    rpc UpdateCustomerDetails(CustomerDetails) returns(CustomerDetails){};
+    rpc UpdateAdminDetails(AdminDetails) returns(AdminDetails){};
+    rpc UpdateDriverDetails(DriverDetails) returns(DriverDetails){};
+
+
+                // Admin Functions
+    rpc GetAllDriverDocs(void) returns(AllDriversDocs){};
+    rpc UpdateVerifiedDriverStatus(DriverVerificationStatus) returns(Acknowledgement){};
+
+
+                // Customer Functions
+    // Called Only after booked
+    rpc CreateBooking(BookingDetails) returns(Acknowledgement){};
+    // Called when trip is started/ended
+    rpc UpdateBookingStatus(BookingStatus) returns(Acknowledgement){};
+
+    // Called when trip is canceled by customer/driver
+    // Update the booking status : canceled
+    // Update the driver availability : available
+    // Update payment status : not-applicable
+    rpc CancelBooking(BookingId) returns(Acknowledgement){};
+
+
+                // Driver Functions
+    rpc UpdateDriverStatus(DriverAvailabilityStatus) returns(Acknowledgement){};
+    // Called after trip ended/canceled
+    rpc UpdatePaymentStatus(PaymentStatus) returns(Acknowledgement){};
+    rpc UploadDriverDocs(SingleDriverDocs) returns(Acknowledgement){};
+}
+
+// payment_status=default "NotPaid";
+message PaymentStatus {
+    int32 booking_id = 1;
+    enum StatusType {
+        NotPaid = 0;        // default status
+        Paid = 1;
+        NotApplicable = 2;
+    }
+    StatusType status = 2;
+}
+
+
+message DriverAvailabilityStatus {
+    int32 driver_id = 1;
+    string driver_availability_status = 2;
+}
+
+message BookingId {
+    int32 booking_id = 1;
+}
+
+// booking_status=default "booked";
+message BookingStatus {
+    int32 booking_id = 1;
+    enum StatusType {
+        Booked = 0;        // default status
+        Canceled = 1;
+        InProgress = 2;
+        Completed = 3;
+    }
+    StatusType status = 2;
+}
+
+message BookingDetails {
+    string booked_time = 1;
+    int32 final_fare = 2;
+    int32 driver_id = 3;
+    int32 customer_id = 4;
+    string pickup_location_text = 5;
+    string drop_location_text = 6;
+    double pickup_location_lat = 7;
+    double pickup_location_long = 8;
+    double drop_location_lat = 9;
+    double drop_location_long = 10;
+}
+
+
+message Acknowledgement {
+    string response = 1;
+}
+
+message DriverVerificationStatus {
+    int32 driver_id = 1;
+    string driver_verification_status = 2;
+}
+
+message AllDriversDocs {    
+    repeated SingleDriverDocs driver_docs = 1;
+}
+message SingleDriverDocs {
+    int32 driver_id = 1;
+    string bike_registration_number = 2;
+    string license_docs_link = 3;
+    string docs_link = 4;
+}
+
+message void {}
+
+message DriverDetails {
+    int32 id = 1;
+    string typeOfUser = 2;
+    double current_location_lat = 3;
+    double current_location_long = 4;
+    int32 rating = 5;
+    string driver_availability_status = 6;
+    string driver_verified_status = 7;
+    UserProfileDetails user = 8;
+}
+
+message AdminDetails{
+    int32 id = 1;
+    string typeOfUser = 2;
+    UserProfileDetails user = 3;
+}
+
+message CustomerDetails {
+    int32 id = 1;
+    string typeOfUser = 2;
+    int32 rating = 3;
+    UserProfileDetails user = 4;
+}
+
+message UserProfileDetails {
+    string name = 1;
+    string address = 2;
+    uint64 phoneno = 3;
+    string email = 4;
+}

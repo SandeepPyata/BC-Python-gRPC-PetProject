@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package mainFile;
 
-
-
 service Ride
 {
     // Creation of roles - INSERT
@@ -11,34 +9,26 @@ service Ride
     rpc CreateAdmin(AdminDetails) returns(AdminDetails){};
     rpc CreateDriver(DriverDetails) returns(DriverDetails){};
 
-    // Updating details of all users - ALTER
-    rpc UpdateCustomerDetails(CustomerDetails) returns(CustomerDetails){};
-    rpc UpdateAdminDetails(AdminDetails) returns(AdminDetails){};
-    rpc UpdateDriverDetails(DriverDetails) returns(DriverDetails){};
+    // Updation of roles' details(User Table) - Basic Info
+    rpc UpdateUserProfile(UserProfileDetails) returns(Acknowledgement){};
 
-
-                // Admin Functions
-    rpc GetAllDriverDocs(void) returns(AllDriversDocs){};
+    // Admin Functions
+    rpc GetAllDriverDocs(Empty) returns(AllDriversDocs){};
     rpc UpdateVerifiedDriverStatus(DriverVerificationStatus) returns(Acknowledgement){};
 
-
-                // Customer Functions
-    // Called Only after booked
-    rpc CreateBooking(BookingDetails) returns(Acknowledgement){};
+    // Customer-Initiated Functions
+    rpc CreateBooking(BookingDetails) returns(Acknowledgement){};       // Called Only after booked
+    // Called when trip is cancelled by customer/driver, Update booking status : cancelled, driver availability : available, payment status : not-applicable
+    rpc CancelBooking(BookingId) returns(Acknowledgement){};
+    
+    // Status related
     // Called when trip is started/ended
     rpc UpdateBookingStatus(BookingStatus) returns(Acknowledgement){};
-
-    // Called when trip is canceled by customer/driver
-    // Update the booking status : canceled
-    // Update the driver availability : available
-    // Update payment status : not-applicable
-    rpc CancelBooking(BookingId) returns(Acknowledgement){};
-
-
-                // Driver Functions
     rpc UpdateDriverStatus(DriverAvailabilityStatus) returns(Acknowledgement){};
-    // Called after trip ended/canceled
+    // Called after trip ended/cancelled
     rpc UpdatePaymentStatus(PaymentStatus) returns(Acknowledgement){};
+
+    // Driver-Initiated Functions
     rpc UploadDriverDocs(SingleDriverDocs) returns(Acknowledgement){};
 }
 
@@ -46,9 +36,9 @@ service Ride
 message PaymentStatus {
     int32 booking_id = 1;
     enum StatusType {
-        NotPaid = 0;        // default status
-        Paid = 1;
-        NotApplicable = 2;
+        NOTPAID = 0;        // default status
+        PAID = 1;
+        NOTAPPLICABLE = 2;
     }
     StatusType status = 2;
 }
@@ -56,7 +46,12 @@ message PaymentStatus {
 
 message DriverAvailabilityStatus {
     int32 driver_id = 1;
-    string driver_availability_status = 2;
+    enum StatusType {
+        UNAVAILABLE = 0; // default status
+        AVAILABLE = 1;
+        IN_TRIP = 2;
+    }
+    StatusType status = 2;
 }
 
 message BookingId {
@@ -67,10 +62,10 @@ message BookingId {
 message BookingStatus {
     int32 booking_id = 1;
     enum StatusType {
-        Booked = 0;        // default status
-        Canceled = 1;
-        InProgress = 2;
-        Completed = 3;
+        BOOKED = 0;        // default status
+        CANCELLED = 1;
+        INPROGRESS = 2;
+        COMPLETED = 3;
     }
     StatusType status = 2;
 }
@@ -106,9 +101,10 @@ message SingleDriverDocs {
     string bike_registration_number = 2;
     string license_docs_link = 3;
     string docs_link = 4;
+    optional int32 admin_id = 5;
 }
 
-message void {}
+message Empty {}
 
 message DriverDetails {
     int32 id = 1;
@@ -116,7 +112,12 @@ message DriverDetails {
     double current_location_lat = 3;
     double current_location_long = 4;
     int32 rating = 5;
-    string driver_availability_status = 6;
+    enum StatusType {
+        UNAVAILABLE = 0; // default status
+        AVAILABLE = 1;
+        IN_TRIP = 2;
+    }
+    StatusType driver_availability_status = 6;
     string driver_verified_status = 7;
     UserProfileDetails user = 8;
 }

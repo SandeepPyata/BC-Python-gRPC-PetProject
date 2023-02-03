@@ -29,24 +29,14 @@ class RideStub(object):
                 request_serializer=main__pb2.DriverDetails.SerializeToString,
                 response_deserializer=main__pb2.DriverDetails.FromString,
                 )
-        self.UpdateCustomerDetails = channel.unary_unary(
-                '/mainFile.Ride/UpdateCustomerDetails',
-                request_serializer=main__pb2.CustomerDetails.SerializeToString,
-                response_deserializer=main__pb2.CustomerDetails.FromString,
-                )
-        self.UpdateAdminDetails = channel.unary_unary(
-                '/mainFile.Ride/UpdateAdminDetails',
-                request_serializer=main__pb2.AdminDetails.SerializeToString,
-                response_deserializer=main__pb2.AdminDetails.FromString,
-                )
-        self.UpdateDriverDetails = channel.unary_unary(
-                '/mainFile.Ride/UpdateDriverDetails',
-                request_serializer=main__pb2.DriverDetails.SerializeToString,
-                response_deserializer=main__pb2.DriverDetails.FromString,
+        self.UpdateUserProfile = channel.unary_unary(
+                '/mainFile.Ride/UpdateUserProfile',
+                request_serializer=main__pb2.UserProfileDetails.SerializeToString,
+                response_deserializer=main__pb2.Acknowledgement.FromString,
                 )
         self.GetAllDriverDocs = channel.unary_unary(
                 '/mainFile.Ride/GetAllDriverDocs',
-                request_serializer=main__pb2.void.SerializeToString,
+                request_serializer=main__pb2.Empty.SerializeToString,
                 response_deserializer=main__pb2.AllDriversDocs.FromString,
                 )
         self.UpdateVerifiedDriverStatus = channel.unary_unary(
@@ -59,14 +49,14 @@ class RideStub(object):
                 request_serializer=main__pb2.BookingDetails.SerializeToString,
                 response_deserializer=main__pb2.Acknowledgement.FromString,
                 )
-        self.UpdateBookingStatus = channel.unary_unary(
-                '/mainFile.Ride/UpdateBookingStatus',
-                request_serializer=main__pb2.BookingStatus.SerializeToString,
-                response_deserializer=main__pb2.Acknowledgement.FromString,
-                )
         self.CancelBooking = channel.unary_unary(
                 '/mainFile.Ride/CancelBooking',
                 request_serializer=main__pb2.BookingId.SerializeToString,
+                response_deserializer=main__pb2.Acknowledgement.FromString,
+                )
+        self.UpdateBookingStatus = channel.unary_unary(
+                '/mainFile.Ride/UpdateBookingStatus',
+                request_serializer=main__pb2.BookingStatus.SerializeToString,
                 response_deserializer=main__pb2.Acknowledgement.FromString,
                 )
         self.UpdateDriverStatus = channel.unary_unary(
@@ -108,21 +98,9 @@ class RideServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def UpdateCustomerDetails(self, request, context):
-        """Updating details of all users - ALTER
+    def UpdateUserProfile(self, request, context):
+        """Updation of roles' details(User Table) - Basic Info
         """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def UpdateAdminDetails(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def UpdateDriverDetails(self, request, context):
-        """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -141,46 +119,43 @@ class RideServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def CreateBooking(self, request, context):
-        """Customer Functions
-        Called Only after booked
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-    def UpdateBookingStatus(self, request, context):
-        """Called when trip is started/ended
+        """Customer-Initiated Functions
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def CancelBooking(self, request, context):
-        """Called when trip is canceled by customer/driver
-        Update the booking status : canceled
-        Update the driver availability : available
-        Update payment status : not-applicable
+        """Called when trip is cancelled by customer/driver, Update booking status : cancelled, driver availability : available, payment status : not-applicable
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def UpdateBookingStatus(self, request, context):
+        """Status related
+        Called when trip is started/ended
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def UpdateDriverStatus(self, request, context):
-        """Driver Functions
-        """
+        """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def UpdatePaymentStatus(self, request, context):
-        """Called after trip ended/canceled
+        """Called after trip ended/cancelled
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def UploadDriverDocs(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Driver-Initiated Functions
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -203,24 +178,14 @@ def add_RideServicer_to_server(servicer, server):
                     request_deserializer=main__pb2.DriverDetails.FromString,
                     response_serializer=main__pb2.DriverDetails.SerializeToString,
             ),
-            'UpdateCustomerDetails': grpc.unary_unary_rpc_method_handler(
-                    servicer.UpdateCustomerDetails,
-                    request_deserializer=main__pb2.CustomerDetails.FromString,
-                    response_serializer=main__pb2.CustomerDetails.SerializeToString,
-            ),
-            'UpdateAdminDetails': grpc.unary_unary_rpc_method_handler(
-                    servicer.UpdateAdminDetails,
-                    request_deserializer=main__pb2.AdminDetails.FromString,
-                    response_serializer=main__pb2.AdminDetails.SerializeToString,
-            ),
-            'UpdateDriverDetails': grpc.unary_unary_rpc_method_handler(
-                    servicer.UpdateDriverDetails,
-                    request_deserializer=main__pb2.DriverDetails.FromString,
-                    response_serializer=main__pb2.DriverDetails.SerializeToString,
+            'UpdateUserProfile': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateUserProfile,
+                    request_deserializer=main__pb2.UserProfileDetails.FromString,
+                    response_serializer=main__pb2.Acknowledgement.SerializeToString,
             ),
             'GetAllDriverDocs': grpc.unary_unary_rpc_method_handler(
                     servicer.GetAllDriverDocs,
-                    request_deserializer=main__pb2.void.FromString,
+                    request_deserializer=main__pb2.Empty.FromString,
                     response_serializer=main__pb2.AllDriversDocs.SerializeToString,
             ),
             'UpdateVerifiedDriverStatus': grpc.unary_unary_rpc_method_handler(
@@ -233,14 +198,14 @@ def add_RideServicer_to_server(servicer, server):
                     request_deserializer=main__pb2.BookingDetails.FromString,
                     response_serializer=main__pb2.Acknowledgement.SerializeToString,
             ),
-            'UpdateBookingStatus': grpc.unary_unary_rpc_method_handler(
-                    servicer.UpdateBookingStatus,
-                    request_deserializer=main__pb2.BookingStatus.FromString,
-                    response_serializer=main__pb2.Acknowledgement.SerializeToString,
-            ),
             'CancelBooking': grpc.unary_unary_rpc_method_handler(
                     servicer.CancelBooking,
                     request_deserializer=main__pb2.BookingId.FromString,
+                    response_serializer=main__pb2.Acknowledgement.SerializeToString,
+            ),
+            'UpdateBookingStatus': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateBookingStatus,
+                    request_deserializer=main__pb2.BookingStatus.FromString,
                     response_serializer=main__pb2.Acknowledgement.SerializeToString,
             ),
             'UpdateDriverStatus': grpc.unary_unary_rpc_method_handler(
@@ -320,7 +285,7 @@ class Ride(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def UpdateCustomerDetails(request,
+    def UpdateUserProfile(request,
             target,
             options=(),
             channel_credentials=None,
@@ -330,43 +295,9 @@ class Ride(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/mainFile.Ride/UpdateCustomerDetails',
-            main__pb2.CustomerDetails.SerializeToString,
-            main__pb2.CustomerDetails.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def UpdateAdminDetails(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/mainFile.Ride/UpdateAdminDetails',
-            main__pb2.AdminDetails.SerializeToString,
-            main__pb2.AdminDetails.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def UpdateDriverDetails(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/mainFile.Ride/UpdateDriverDetails',
-            main__pb2.DriverDetails.SerializeToString,
-            main__pb2.DriverDetails.FromString,
+        return grpc.experimental.unary_unary(request, target, '/mainFile.Ride/UpdateUserProfile',
+            main__pb2.UserProfileDetails.SerializeToString,
+            main__pb2.Acknowledgement.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -382,7 +313,7 @@ class Ride(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/mainFile.Ride/GetAllDriverDocs',
-            main__pb2.void.SerializeToString,
+            main__pb2.Empty.SerializeToString,
             main__pb2.AllDriversDocs.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
@@ -422,23 +353,6 @@ class Ride(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def UpdateBookingStatus(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/mainFile.Ride/UpdateBookingStatus',
-            main__pb2.BookingStatus.SerializeToString,
-            main__pb2.Acknowledgement.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
     def CancelBooking(request,
             target,
             options=(),
@@ -451,6 +365,23 @@ class Ride(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/mainFile.Ride/CancelBooking',
             main__pb2.BookingId.SerializeToString,
+            main__pb2.Acknowledgement.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UpdateBookingStatus(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/mainFile.Ride/UpdateBookingStatus',
+            main__pb2.BookingStatus.SerializeToString,
             main__pb2.Acknowledgement.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

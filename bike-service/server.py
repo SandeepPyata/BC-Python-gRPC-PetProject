@@ -6,6 +6,7 @@ import logging
 import mysql
 import mysql.connector
 import pymysql
+from functions import AdminFunctions, CreateProfile, Customer_Initiated, Driver_Initiated, Status_Change, UpdateProfile
 
 mydb = pymysql.connect(
     host="localhost",
@@ -14,93 +15,44 @@ mydb = pymysql.connect(
     database="mydatabase"
 )
 
-print(mydb)
-
 
 class RideServicer(main_pb2_grpc.RideServicer):
 
     def CreateCustomer(self, request, context):
-        user = {
-            "name": request.user.name,
-            "address": request.user.address,
-            "phoneno": request.user.phoneno,
-            "email": request.user.email,
-        }
-
-        mycursor = mydb.cursor()
-
-        # Testing purpose
-        sql = 'delete from User where name="Hell"'
-        mycursor.execute(sql)
-        mydb.commit()
-
-        #  inserting into User table
-        sql = 'insert into User (typeOfUser, name, address, phone_no, email_id) values(%s,%s,%s,%s,%s)'
-        val = ('Customer', user["name"],
-               user["address"], user["phoneno"], user["email"])
-        mycursor.execute(sql, val)
-        mydb.commit()
-
-        # Getting last inserted row id from User table
-        myresult = mycursor.execute(
-            'select id from User order by id desc limit 1')
-        myresult = mycursor.fetchall()
-        last_inserted_id = myresult[0]
-
-        # Inserting into Customer as foreign key
-        sql = 'insert into Customer (userID) values(%s)'
-        val = (last_inserted_id,)
-        mycursor.execute(sql, val)
-        mydb.commit()
-
-        # Printing after insertion
-        myresult = mycursor.execute('select * from User')
-        myresult = mycursor.fetchall()
-        for x in myresult:
-            print(x)
-
-        return main_pb2.CustomerDetails(typeOfUser="Customer", user=user)
+        return CreateProfile.CreateCustomer(request, mydb, main_pb2)
 
     def CreateAdmin(self, request, context):
-        user = {
-            "name": request.user.name,
-            "address": request.user.address,
-            "phoneno": request.user.phoneno,
-            "email": request.user.email,
-        }
+        return CreateProfile.CreateAdmin(request, mydb, main_pb2)
 
-        mycursor = mydb.cursor()
+    def CreateDriver(self, request, context):
+        return CreateProfile.CreateDriver(request, mydb, main_pb2)
 
-        sql = 'delete from User where name="Hell"'
-        mycursor.execute(sql)
-        mydb.commit()
+    def UpdateUserProfile(self, request, context):
+        return UpdateProfile.UpdateUserProfile(request, mydb, main_pb2)
 
-        #  inserting into User table
-        sql = 'insert into User (typeOfUser, name, address, phone_no, email_id) values(%s,%s,%s,%s,%s)'
-        val = ('Customer', user["name"],
-               user["address"], user["phoneno"], user["email"])
-        mycursor.execute(sql, val)
-        mydb.commit()
+    def GetAllDriverDocs(self, request, context):
+        return AdminFunctions.GetAllDriverDocs(request, mydb, main_pb2)
 
-        # Getting last inserted row id from User table
-        myresult = mycursor.execute(
-            'select id from User order by id desc limit 1')
-        myresult = mycursor.fetchall()
-        last_inserted_id = myresult[0]
+    def UpdateVerifiedDriverStatus(self, request, context):
+        return AdminFunctions.UpdateVerifiedDriverStatus(request, mydb, main_pb2)
 
-        # Inserting into Customer as foreign key
-        sql = 'insert into Customer (userID) values(%s)'
-        val = (last_inserted_id,)
-        mycursor.execute(sql, val)
-        mydb.commit()
+    def CreateBooking(self, request, context):
+        return Customer_Initiated.CreateBooking(request, mydb, main_pb2)
 
-        # Printing after insertion
-        myresult = mycursor.execute('select * from User')
-        myresult = mycursor.fetchall()
-        for x in myresult:
-            print(x)
+    def CancelBooking(self, request, context):
+        return Customer_Initiated.CancelBooking(request, mydb, main_pb2)
 
-        return main_pb2.CustomerDetails(typeOfUser="Customer", user=user)
+    def UpdateBookingStatus(self, request, context):
+        return Status_Change.UpdateBookingStatus(request, mydb, main_pb2)
+
+    def UpdateDriverStatus(self, request, context):
+        return Status_Change.UpdateDriverStatus(request, mydb, main_pb2)
+
+    def UpdatePaymentStatus(self, request, context):
+        return Status_Change.UpdatePaymentStatus(request, mydb, main_pb2)
+
+    def UploadDriverDocs(self, request, context):
+        return Driver_Initiated.UploadDriverDocs(request, mydb, main_pb2)
 
 
 def serve():

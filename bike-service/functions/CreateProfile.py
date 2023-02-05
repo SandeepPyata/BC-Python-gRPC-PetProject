@@ -5,27 +5,31 @@ def CreateCustomer(request, mydb, main_pb2):
         "phoneno": request.user.phoneno,
         "email": request.user.email,
     }
-    mycursor = mydb.cursor()
-    #  inserting into User table
-    sql = 'insert into User (typeOfUser, name, address, phone_no, email_id) values(%s,%s,%s,%s,%s)'
-    val = ('Customer', user["name"],
-           user["address"], user["phoneno"], user["email"])
-    mycursor.execute(sql, val)
-    mydb.commit()
 
-    # Getting last inserted row id from User table
-    myresult = mycursor.execute(
-        'select id from User order by id desc limit 1')
-    myresult = mycursor.fetchall()
-    last_inserted_id = list(myresult[0])[0]
+    try:
+        mycursor = mydb.cursor()
 
-    # Inserting into Customer as foreign key
-    sql = 'insert into Customer (User_id) values(%s)'
-    val = (last_inserted_id,)
-    mycursor.execute(sql, val)
-    mydb.commit()
+        #  inserting into User table
+        sql = 'insert into User (typeOfUser, name, address, phone_no, email_id) values(%s,%s,%s,%s,%s)'
+        val = ('Customer', user["name"],
+               user["address"], user["phoneno"], user["email"])
+        mycursor.execute(sql, val)
 
-    return main_pb2.CustomerDetails(id=last_inserted_id, typeOfUser="Customer", user=user)
+        # Inserting into Customer as foreign key
+        sql = 'insert into Customer(`User_id`) select `id` from User order by `id` desc limit 1'
+        mycursor.execute(sql)
+
+        mydb.commit()
+        print("Committed")
+        return main_pb2.CustomerDetails(typeOfUser="Customer", user=user)
+
+    except mydb.Error as e:
+        raise e
+    except:
+        raise e
+    finally:
+        if mydb.open:
+            mycursor.close()
 
 
 def CreateAdmin(request, mydb, main_pb2):
@@ -35,29 +39,30 @@ def CreateAdmin(request, mydb, main_pb2):
         "phoneno": request.user.phoneno,
         "email": request.user.email,
     }
+    try:
+        mycursor = mydb.cursor()
 
-    mycursor = mydb.cursor()
+        #  inserting into User table
+        sql = 'insert into User (typeOfUser, name, address, phone_no, email_id) values(%s,%s,%s,%s,%s)'
+        val = ('Admin', user["name"],
+               user["address"], user["phoneno"], user["email"])
+        mycursor.execute(sql, val)
+        mydb.commit()
 
-    #  inserting into User table
-    sql = 'insert into User (typeOfUser, name, address, phone_no, email_id) values(%s,%s,%s,%s,%s)'
-    val = ('Admin', user["name"],
-           user["address"], user["phoneno"], user["email"])
-    mycursor.execute(sql, val)
-    mydb.commit()
+        # Inserting into Customer as foreign key
+        sql = 'insert into Admin(`User_id`) select `id` from User order by `id` desc limit 1'
+        mycursor.execute(sql)
+        mydb.commit()
 
-    # Getting last inserted row id from User table
-    myresult = mycursor.execute(
-        'select id from User order by id desc limit 1')
-    myresult = mycursor.fetchall()
-    last_inserted_id = list(myresult[0])[0]
+        return main_pb2.AdminDetails(typeOfUser="Admin", user=user)
 
-    # Inserting into Customer as foreign key
-    sql = 'insert into Admin (User_id) values(%s)'
-    val = (last_inserted_id,)
-    mycursor.execute(sql, val)
-    mydb.commit()
-
-    return main_pb2.AdminDetails(id=last_inserted_id, typeOfUser="Admin", user=user)
+    except mydb.Error as e:
+        raise e
+    except:
+        raise e
+    finally:
+        if mydb.open:
+            mycursor.close()
 
 
 def CreateDriver(request, mydb, main_pb2):
@@ -76,27 +81,35 @@ def CreateDriver(request, mydb, main_pb2):
         "driver_verified_status": "unverified",
         "user": user
     }
+    try:
+        mycursor = mydb.cursor()
 
-    mycursor = mydb.cursor()
+        #  inserting into User table
+        sql = 'insert into User (typeOfUser, name, address, phone_no, email_id) values(%s,%s,%s,%s,%s)'
+        val = (details["typeOfUser"], user["name"],
+               user["address"], user["phoneno"], user["email"])
+        mycursor.execute(sql, val)
+        mydb.commit()
 
-    #  inserting into User table
-    sql = 'insert into User (typeOfUser, name, address, phone_no, email_id) values(%s,%s,%s,%s,%s)'
-    val = (details["typeOfUser"], user["name"],
-           user["address"], user["phoneno"], user["email"])
-    mycursor.execute(sql, val)
-    mydb.commit()
+        # Getting last inserted row id from User table
+        myresult = mycursor.execute(
+            'select id from User order by id desc limit 1')
+        myresult = mycursor.fetchall()
+        last_inserted_id = list(myresult[0])[0]
 
-    # Getting last inserted row id from User table
-    myresult = mycursor.execute(
-        'select id from User order by id desc limit 1')
-    myresult = mycursor.fetchall()
-    last_inserted_id = list(myresult[0])[0]
+        # Inserting into Customer as foreign key
+        sql = 'insert into Driver (User_id,current_location_lat, current_location_long, is_verified_status, rating, current_status) values(%s,%s,%s,%s,%s,%s)'
+        val = (last_inserted_id, details["current_location_lat"], details["current_location_long"],
+               details["driver_verified_status"], details["rating"], details["driver_availability_status"])
+        mycursor.execute(sql, val)
+        mydb.commit()
 
-    # Inserting into Customer as foreign key
-    sql = 'insert into Driver (User_id,current_location_lat, current_location_long, is_verified_status, rating, current_status) values(%s,%s,%s,%s,%s,%s)'
-    val = (last_inserted_id, details["current_location_lat"], details["current_location_long"],
-           details["driver_verified_status"], details["rating"], details["driver_availability_status"])
-    mycursor.execute(sql, val)
-    mydb.commit()
+        return main_pb2.DriverDetails(id=last_inserted_id, typeOfUser="Driver", driver_availabilty_status="unavailable", driver_verified_status="unverified", user=user)
 
-    return main_pb2.DriverDetails(id=last_inserted_id, typeOfUser="Driver", driver_availabilty_status="unavailable", driver_verified_status="unverified", user=user)
+    except mydb.Error as e:
+        raise e
+    except:
+        raise e
+    finally:
+        if mydb.open:
+            mycursor.close()

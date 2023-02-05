@@ -34,7 +34,7 @@ CREATE TABLE Admin (
 CREATE TABLE Customer (
    id int NOT NULL AUTO_INCREMENT,
    User_id int NOT NULL,
-   rating int NULL,
+   rating int NOT NULL DEFAULT 0,
    CONSTRAINT Customer_pk PRIMARY KEY (id)
 );
 
@@ -45,7 +45,7 @@ CREATE TABLE Driver (
     current_location_lat decimal(7,5)  NULL,
     current_location_long decimal(7,5)  NULL,
     is_verified_status text  NOT NULL,
-    rating int  NULL,
+    rating int NOT NULL DEFAULT 0,
     current_status int  NOT NULL,
     CONSTRAINT Driver_pk PRIMARY KEY (id)
 );
@@ -78,3 +78,24 @@ CREATE TABLE Driver_Docs (
    docs_link text NULL,
    CONSTRAINT Driver_Docs_pk PRIMARY KEY (id)
 );
+
+-- delimiter $$
+
+-- CREATE TRIGGER insert_into_customer_admin
+-- AFTER INSERT ON User FOR EACH ROW
+-- BEGIN
+--     DECLARE typeOfUser varchar(100);
+--     declare id integer;
+--     -- @id=id
+-- 	SET @typeOfUser := (SELECT typeOfUser from User order by id limit 1);
+--     SET @id:= (SELECT id from User order by id limit 1);
+--     
+--     IF (@typeOfUser = 'Customer') THEN
+-- 		INSERT INTO Customer(User_id) values(@id);
+-- 	ELSEIF (@typeOfUser = 'Admin') THEN
+-- 		INSERT INTO Admin(User_id) values(@id);
+-- 	END IF;
+-- END$$
+
+-- delimiter ;
+

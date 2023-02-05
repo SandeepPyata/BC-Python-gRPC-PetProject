@@ -30,6 +30,9 @@ class RideServicer(main_pb2_grpc.RideServicer):
     def UpdateUserProfile(self, request, context):
         return UpdateProfile.UpdateUserProfile(request, mydb, main_pb2)
 
+    def GetAvailableDriversList(self, request, context):
+        return Driver_Initiated.GetAvailableDriversList(request, mydb, main_pb2)
+
     def GetAllDriverDocs(self, request, context):
         return AdminFunctions.GetAllDriverDocs(request, mydb, main_pb2)
 

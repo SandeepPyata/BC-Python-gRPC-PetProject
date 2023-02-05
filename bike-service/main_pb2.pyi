@@ -28,6 +28,27 @@ class AllDriversDocs(_message.Message):
     driver_docs: _containers.RepeatedCompositeFieldContainer[SingleDriverDocs]
     def __init__(self, driver_docs: _Optional[_Iterable[_Union[SingleDriverDocs, _Mapping]]] = ...) -> None: ...
 
+class AvailableDrivers(_message.Message):
+    __slots__ = ["driver_list"]
+    class Drivers(_message.Message):
+        __slots__ = ["current_location_lat", "current_location_long", "driver_id", "driver_name", "phone_no", "rating"]
+        CURRENT_LOCATION_LAT_FIELD_NUMBER: _ClassVar[int]
+        CURRENT_LOCATION_LONG_FIELD_NUMBER: _ClassVar[int]
+        DRIVER_ID_FIELD_NUMBER: _ClassVar[int]
+        DRIVER_NAME_FIELD_NUMBER: _ClassVar[int]
+        PHONE_NO_FIELD_NUMBER: _ClassVar[int]
+        RATING_FIELD_NUMBER: _ClassVar[int]
+        current_location_lat: float
+        current_location_long: float
+        driver_id: int
+        driver_name: str
+        phone_no: int
+        rating: int
+        def __init__(self, driver_id: _Optional[int] = ..., driver_name: _Optional[str] = ..., phone_no: _Optional[int] = ..., current_location_lat: _Optional[float] = ..., current_location_long: _Optional[float] = ..., rating: _Optional[int] = ...) -> None: ...
+    DRIVER_LIST_FIELD_NUMBER: _ClassVar[int]
+    driver_list: _containers.RepeatedCompositeFieldContainer[AvailableDrivers.Drivers]
+    def __init__(self, driver_list: _Optional[_Iterable[_Union[AvailableDrivers.Drivers, _Mapping]]] = ...) -> None: ...
+
 class BookingDetails(_message.Message):
     __slots__ = ["booked_time", "customer_id", "driver_id", "drop_location_lat", "drop_location_long", "drop_location_text", "final_fare", "pickup_location_lat", "pickup_location_long", "pickup_location_text"]
     BOOKED_TIME_FIELD_NUMBER: _ClassVar[int]
@@ -99,23 +120,28 @@ class DriverAvailabilityStatus(_message.Message):
 
 class DriverDetails(_message.Message):
     __slots__ = ["current_location_lat", "current_location_long", "driver_availability_status", "driver_verified_status", "id", "rating", "typeOfUser", "user"]
+    class StatusType(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+        __slots__ = []
+    AVAILABLE: DriverDetails.StatusType
     CURRENT_LOCATION_LAT_FIELD_NUMBER: _ClassVar[int]
     CURRENT_LOCATION_LONG_FIELD_NUMBER: _ClassVar[int]
     DRIVER_AVAILABILITY_STATUS_FIELD_NUMBER: _ClassVar[int]
     DRIVER_VERIFIED_STATUS_FIELD_NUMBER: _ClassVar[int]
     ID_FIELD_NUMBER: _ClassVar[int]
+    IN_TRIP: DriverDetails.StatusType
     RATING_FIELD_NUMBER: _ClassVar[int]
     TYPEOFUSER_FIELD_NUMBER: _ClassVar[int]
+    UNAVAILABLE: DriverDetails.StatusType
     USER_FIELD_NUMBER: _ClassVar[int]
     current_location_lat: float
     current_location_long: float
-    driver_availability_status: str
+    driver_availability_status: DriverDetails.StatusType
     driver_verified_status: str
     id: int
     rating: int
     typeOfUser: str
     user: UserProfileDetails
-    def __init__(self, id: _Optional[int] = ..., typeOfUser: _Optional[str] = ..., current_location_lat: _Optional[float] = ..., current_location_long: _Optional[float] = ..., rating: _Optional[int] = ..., driver_availability_status: _Optional[str] = ..., driver_verified_status: _Optional[str] = ..., user: _Optional[_Union[UserProfileDetails, _Mapping]] = ...) -> None: ...
+    def __init__(self, id: _Optional[int] = ..., typeOfUser: _Optional[str] = ..., current_location_lat: _Optional[float] = ..., current_location_long: _Optional[float] = ..., rating: _Optional[int] = ..., driver_availability_status: _Optional[_Union[DriverDetails.StatusType, str]] = ..., driver_verified_status: _Optional[str] = ..., user: _Optional[_Union[UserProfileDetails, _Mapping]] = ...) -> None: ...
 
 class DriverVerificationStatus(_message.Message):
     __slots__ = ["driver_id", "driver_verification_status"]

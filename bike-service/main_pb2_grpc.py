@@ -74,6 +74,11 @@ class RideStub(object):
                 request_serializer=main__pb2.SingleDriverDocs.SerializeToString,
                 response_deserializer=main__pb2.Acknowledgement.FromString,
                 )
+        self.GetAvailableDriversList = channel.unary_unary(
+                '/mainFile.Ride/GetAvailableDriversList',
+                request_serializer=main__pb2.Empty.SerializeToString,
+                response_deserializer=main__pb2.AvailableDrivers.FromString,
+                )
 
 
 class RideServicer(object):
@@ -154,8 +159,14 @@ class RideServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def UploadDriverDocs(self, request, context):
-        """Driver-Initiated Functions
+        """Driver-Initiated(Related) Functions
         """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetAvailableDriversList(self, request, context):
+        """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -222,6 +233,11 @@ def add_RideServicer_to_server(servicer, server):
                     servicer.UploadDriverDocs,
                     request_deserializer=main__pb2.SingleDriverDocs.FromString,
                     response_serializer=main__pb2.Acknowledgement.SerializeToString,
+            ),
+            'GetAvailableDriversList': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetAvailableDriversList,
+                    request_deserializer=main__pb2.Empty.FromString,
+                    response_serializer=main__pb2.AvailableDrivers.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -434,5 +450,22 @@ class Ride(object):
         return grpc.experimental.unary_unary(request, target, '/mainFile.Ride/UploadDriverDocs',
             main__pb2.SingleDriverDocs.SerializeToString,
             main__pb2.Acknowledgement.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetAvailableDriversList(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/mainFile.Ride/GetAvailableDriversList',
+            main__pb2.Empty.SerializeToString,
+            main__pb2.AvailableDrivers.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

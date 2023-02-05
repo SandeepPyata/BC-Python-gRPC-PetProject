@@ -13,47 +13,53 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nmain.proto\x12\x08mainFile\"\x8f\x01\n\rPaymentStatus\x12\x12\n\nbooking_id\x18\x01 \x01(\x05\x12\x32\n\x06status\x18\x02 \x01(\x0e\x32\".mainFile.PaymentStatus.StatusType\"6\n\nStatusType\x12\x0b\n\x07NOTPAID\x10\x00\x12\x08\n\x04PAID\x10\x01\x12\x11\n\rNOTAPPLICABLE\x10\x02\"\xa7\x01\n\x18\x44riverAvailabilityStatus\x12\x11\n\tdriver_id\x18\x01 \x01(\x05\x12=\n\x06status\x18\x02 \x01(\x0e\x32-.mainFile.DriverAvailabilityStatus.StatusType\"9\n\nStatusType\x12\x0f\n\x0bUNAVAILABLE\x10\x00\x12\r\n\tAVAILABLE\x10\x01\x12\x0b\n\x07IN_TRIP\x10\x02\"\x1f\n\tBookingId\x12\x12\n\nbooking_id\x18\x01 \x01(\x05\"\x9f\x01\n\rBookingStatus\x12\x12\n\nbooking_id\x18\x01 \x01(\x05\x12\x32\n\x06status\x18\x02 \x01(\x0e\x32\".mainFile.BookingStatus.StatusType\"F\n\nStatusType\x12\n\n\x06\x42OOKED\x10\x00\x12\r\n\tCANCELLED\x10\x01\x12\x0e\n\nINPROGRESS\x10\x02\x12\r\n\tCOMPLETED\x10\x03\"\x8d\x02\n\x0e\x42ookingDetails\x12\x13\n\x0b\x62ooked_time\x18\x01 \x01(\t\x12\x12\n\nfinal_fare\x18\x02 \x01(\x05\x12\x11\n\tdriver_id\x18\x03 \x01(\x05\x12\x13\n\x0b\x63ustomer_id\x18\x04 \x01(\x05\x12\x1c\n\x14pickup_location_text\x18\x05 \x01(\t\x12\x1a\n\x12\x64rop_location_text\x18\x06 \x01(\t\x12\x1b\n\x13pickup_location_lat\x18\x07 \x01(\x01\x12\x1c\n\x14pickup_location_long\x18\x08 \x01(\x01\x12\x19\n\x11\x64rop_location_lat\x18\t \x01(\x01\x12\x1a\n\x12\x64rop_location_long\x18\n \x01(\x01\"#\n\x0f\x41\x63knowledgement\x12\x10\n\x08response\x18\x01 \x01(\t\"Q\n\x18\x44riverVerificationStatus\x12\x11\n\tdriver_id\x18\x01 \x01(\x05\x12\"\n\x1a\x64river_verification_status\x18\x02 \x01(\t\"A\n\x0e\x41llDriversDocs\x12/\n\x0b\x64river_docs\x18\x01 \x03(\x0b\x32\x1a.mainFile.SingleDriverDocs\"\x99\x01\n\x10SingleDriverDocs\x12\x11\n\tdriver_id\x18\x01 \x01(\x05\x12 \n\x18\x62ike_registration_number\x18\x02 \x01(\t\x12\x19\n\x11license_docs_link\x18\x03 \x01(\t\x12\x11\n\tdocs_link\x18\x04 \x01(\t\x12\x15\n\x08\x61\x64min_id\x18\x05 \x01(\x05H\x00\x88\x01\x01\x42\x0b\n\t_admin_id\"\x07\n\x05\x45mpty\"\xec\x01\n\rDriverDetails\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x12\n\ntypeOfUser\x18\x02 \x01(\t\x12\x1c\n\x14\x63urrent_location_lat\x18\x03 \x01(\x01\x12\x1d\n\x15\x63urrent_location_long\x18\x04 \x01(\x01\x12\x0e\n\x06rating\x18\x05 \x01(\x05\x12\"\n\x1a\x64river_availability_status\x18\x06 \x01(\t\x12\x1e\n\x16\x64river_verified_status\x18\x07 \x01(\t\x12*\n\x04user\x18\x08 \x01(\x0b\x32\x1c.mainFile.UserProfileDetails\"Z\n\x0c\x41\x64minDetails\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x12\n\ntypeOfUser\x18\x02 \x01(\t\x12*\n\x04user\x18\x03 \x01(\x0b\x32\x1c.mainFile.UserProfileDetails\"m\n\x0f\x43ustomerDetails\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x12\n\ntypeOfUser\x18\x02 \x01(\t\x12\x0e\n\x06rating\x18\x03 \x01(\x05\x12*\n\x04user\x18\x04 \x01(\x0b\x32\x1c.mainFile.UserProfileDetails\"S\n\x12UserProfileDetails\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x01(\t\x12\x0f\n\x07phoneno\x18\x03 \x01(\x04\x12\r\n\x05\x65mail\x18\x04 \x01(\t2\x8e\x07\n\x04Ride\x12H\n\x0e\x43reateCustomer\x12\x19.mainFile.CustomerDetails\x1a\x19.mainFile.CustomerDetails\"\x00\x12?\n\x0b\x43reateAdmin\x12\x16.mainFile.AdminDetails\x1a\x16.mainFile.AdminDetails\"\x00\x12\x42\n\x0c\x43reateDriver\x12\x17.mainFile.DriverDetails\x1a\x17.mainFile.DriverDetails\"\x00\x12N\n\x11UpdateUserProfile\x12\x1c.mainFile.UserProfileDetails\x1a\x19.mainFile.Acknowledgement\"\x00\x12?\n\x10GetAllDriverDocs\x12\x0f.mainFile.Empty\x1a\x18.mainFile.AllDriversDocs\"\x00\x12]\n\x1aUpdateVerifiedDriverStatus\x12\".mainFile.DriverVerificationStatus\x1a\x19.mainFile.Acknowledgement\"\x00\x12\x46\n\rCreateBooking\x12\x18.mainFile.BookingDetails\x1a\x19.mainFile.Acknowledgement\"\x00\x12\x41\n\rCancelBooking\x12\x13.mainFile.BookingId\x1a\x19.mainFile.Acknowledgement\"\x00\x12K\n\x13UpdateBookingStatus\x12\x17.mainFile.BookingStatus\x1a\x19.mainFile.Acknowledgement\"\x00\x12U\n\x12UpdateDriverStatus\x12\".mainFile.DriverAvailabilityStatus\x1a\x19.mainFile.Acknowledgement\"\x00\x12K\n\x13UpdatePaymentStatus\x12\x17.mainFile.PaymentStatus\x1a\x19.mainFile.Acknowledgement\"\x00\x12K\n\x10UploadDriverDocs\x12\x1a.mainFile.SingleDriverDocs\x1a\x19.mainFile.Acknowledgement\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nmain.proto\x12\x08mainFile\"\xde\x01\n\x10\x41vailableDrivers\x12\x37\n\x0b\x64river_list\x18\x01 \x03(\x0b\x32\".mainFile.AvailableDrivers.Drivers\x1a\x90\x01\n\x07\x44rivers\x12\x11\n\tdriver_id\x18\x01 \x01(\x05\x12\x13\n\x0b\x64river_name\x18\x02 \x01(\t\x12\x10\n\x08phone_no\x18\x03 \x01(\x03\x12\x1c\n\x14\x63urrent_location_lat\x18\x04 \x01(\x01\x12\x1d\n\x15\x63urrent_location_long\x18\x05 \x01(\x01\x12\x0e\n\x06rating\x18\x06 \x01(\x05\"\x8f\x01\n\rPaymentStatus\x12\x12\n\nbooking_id\x18\x01 \x01(\x05\x12\x32\n\x06status\x18\x02 \x01(\x0e\x32\".mainFile.PaymentStatus.StatusType\"6\n\nStatusType\x12\x0b\n\x07NOTPAID\x10\x00\x12\x08\n\x04PAID\x10\x01\x12\x11\n\rNOTAPPLICABLE\x10\x02\"\xa7\x01\n\x18\x44riverAvailabilityStatus\x12\x11\n\tdriver_id\x18\x01 \x01(\x05\x12=\n\x06status\x18\x02 \x01(\x0e\x32-.mainFile.DriverAvailabilityStatus.StatusType\"9\n\nStatusType\x12\x0f\n\x0bUNAVAILABLE\x10\x00\x12\r\n\tAVAILABLE\x10\x01\x12\x0b\n\x07IN_TRIP\x10\x02\"\x1f\n\tBookingId\x12\x12\n\nbooking_id\x18\x01 \x01(\x05\"\x9f\x01\n\rBookingStatus\x12\x12\n\nbooking_id\x18\x01 \x01(\x05\x12\x32\n\x06status\x18\x02 \x01(\x0e\x32\".mainFile.BookingStatus.StatusType\"F\n\nStatusType\x12\n\n\x06\x42OOKED\x10\x00\x12\r\n\tCANCELLED\x10\x01\x12\x0e\n\nINPROGRESS\x10\x02\x12\r\n\tCOMPLETED\x10\x03\"\x8d\x02\n\x0e\x42ookingDetails\x12\x13\n\x0b\x62ooked_time\x18\x01 \x01(\t\x12\x12\n\nfinal_fare\x18\x02 \x01(\x05\x12\x11\n\tdriver_id\x18\x03 \x01(\x05\x12\x13\n\x0b\x63ustomer_id\x18\x04 \x01(\x05\x12\x1c\n\x14pickup_location_text\x18\x05 \x01(\t\x12\x1a\n\x12\x64rop_location_text\x18\x06 \x01(\t\x12\x1b\n\x13pickup_location_lat\x18\x07 \x01(\x01\x12\x1c\n\x14pickup_location_long\x18\x08 \x01(\x01\x12\x19\n\x11\x64rop_location_lat\x18\t \x01(\x01\x12\x1a\n\x12\x64rop_location_long\x18\n \x01(\x01\"#\n\x0f\x41\x63knowledgement\x12\x10\n\x08response\x18\x01 \x01(\t\"Q\n\x18\x44riverVerificationStatus\x12\x11\n\tdriver_id\x18\x01 \x01(\x05\x12\"\n\x1a\x64river_verification_status\x18\x02 \x01(\t\"A\n\x0e\x41llDriversDocs\x12/\n\x0b\x64river_docs\x18\x01 \x03(\x0b\x32\x1a.mainFile.SingleDriverDocs\"\x99\x01\n\x10SingleDriverDocs\x12\x11\n\tdriver_id\x18\x01 \x01(\x05\x12 \n\x18\x62ike_registration_number\x18\x02 \x01(\t\x12\x19\n\x11license_docs_link\x18\x03 \x01(\t\x12\x11\n\tdocs_link\x18\x04 \x01(\t\x12\x15\n\x08\x61\x64min_id\x18\x05 \x01(\x05H\x00\x88\x01\x01\x42\x0b\n\t_admin_id\"\x07\n\x05\x45mpty\"\xcb\x02\n\rDriverDetails\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x12\n\ntypeOfUser\x18\x02 \x01(\t\x12\x1c\n\x14\x63urrent_location_lat\x18\x03 \x01(\x01\x12\x1d\n\x15\x63urrent_location_long\x18\x04 \x01(\x01\x12\x0e\n\x06rating\x18\x05 \x01(\x05\x12\x46\n\x1a\x64river_availability_status\x18\x06 \x01(\x0e\x32\".mainFile.DriverDetails.StatusType\x12\x1e\n\x16\x64river_verified_status\x18\x07 \x01(\t\x12*\n\x04user\x18\x08 \x01(\x0b\x32\x1c.mainFile.UserProfileDetails\"9\n\nStatusType\x12\x0f\n\x0bUNAVAILABLE\x10\x00\x12\r\n\tAVAILABLE\x10\x01\x12\x0b\n\x07IN_TRIP\x10\x02\"Z\n\x0c\x41\x64minDetails\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x12\n\ntypeOfUser\x18\x02 \x01(\t\x12*\n\x04user\x18\x03 \x01(\x0b\x32\x1c.mainFile.UserProfileDetails\"m\n\x0f\x43ustomerDetails\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x12\n\ntypeOfUser\x18\x02 \x01(\t\x12\x0e\n\x06rating\x18\x03 \x01(\x05\x12*\n\x04user\x18\x04 \x01(\x0b\x32\x1c.mainFile.UserProfileDetails\"S\n\x12UserProfileDetails\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x01(\t\x12\x0f\n\x07phoneno\x18\x03 \x01(\x04\x12\r\n\x05\x65mail\x18\x04 \x01(\t2\xd8\x07\n\x04Ride\x12H\n\x0e\x43reateCustomer\x12\x19.mainFile.CustomerDetails\x1a\x19.mainFile.CustomerDetails\"\x00\x12?\n\x0b\x43reateAdmin\x12\x16.mainFile.AdminDetails\x1a\x16.mainFile.AdminDetails\"\x00\x12\x42\n\x0c\x43reateDriver\x12\x17.mainFile.DriverDetails\x1a\x17.mainFile.DriverDetails\"\x00\x12N\n\x11UpdateUserProfile\x12\x1c.mainFile.UserProfileDetails\x1a\x19.mainFile.Acknowledgement\"\x00\x12?\n\x10GetAllDriverDocs\x12\x0f.mainFile.Empty\x1a\x18.mainFile.AllDriversDocs\"\x00\x12]\n\x1aUpdateVerifiedDriverStatus\x12\".mainFile.DriverVerificationStatus\x1a\x19.mainFile.Acknowledgement\"\x00\x12\x46\n\rCreateBooking\x12\x18.mainFile.BookingDetails\x1a\x19.mainFile.Acknowledgement\"\x00\x12\x41\n\rCancelBooking\x12\x13.mainFile.BookingId\x1a\x19.mainFile.Acknowledgement\"\x00\x12K\n\x13UpdateBookingStatus\x12\x17.mainFile.BookingStatus\x1a\x19.mainFile.Acknowledgement\"\x00\x12U\n\x12UpdateDriverStatus\x12\".mainFile.DriverAvailabilityStatus\x1a\x19.mainFile.Acknowledgement\"\x00\x12K\n\x13UpdatePaymentStatus\x12\x17.mainFile.PaymentStatus\x1a\x19.mainFile.Acknowledgement\"\x00\x12K\n\x10UploadDriverDocs\x12\x1a.mainFile.SingleDriverDocs\x1a\x19.mainFile.Acknowledgement\"\x00\x12H\n\x17GetAvailableDriversList\x12\x0f.mainFile.Empty\x1a\x1a.mainFile.AvailableDrivers\"\x00\x62\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'main_pb2', globals())
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
-  _PAYMENTSTATUS._serialized_start=25
-  _PAYMENTSTATUS._serialized_end=168
-  _PAYMENTSTATUS_STATUSTYPE._serialized_start=114
-  _PAYMENTSTATUS_STATUSTYPE._serialized_end=168
-  _DRIVERAVAILABILITYSTATUS._serialized_start=171
-  _DRIVERAVAILABILITYSTATUS._serialized_end=338
-  _DRIVERAVAILABILITYSTATUS_STATUSTYPE._serialized_start=281
-  _DRIVERAVAILABILITYSTATUS_STATUSTYPE._serialized_end=338
-  _BOOKINGID._serialized_start=340
-  _BOOKINGID._serialized_end=371
-  _BOOKINGSTATUS._serialized_start=374
-  _BOOKINGSTATUS._serialized_end=533
-  _BOOKINGSTATUS_STATUSTYPE._serialized_start=463
-  _BOOKINGSTATUS_STATUSTYPE._serialized_end=533
-  _BOOKINGDETAILS._serialized_start=536
-  _BOOKINGDETAILS._serialized_end=805
-  _ACKNOWLEDGEMENT._serialized_start=807
-  _ACKNOWLEDGEMENT._serialized_end=842
-  _DRIVERVERIFICATIONSTATUS._serialized_start=844
-  _DRIVERVERIFICATIONSTATUS._serialized_end=925
-  _ALLDRIVERSDOCS._serialized_start=927
-  _ALLDRIVERSDOCS._serialized_end=992
-  _SINGLEDRIVERDOCS._serialized_start=995
-  _SINGLEDRIVERDOCS._serialized_end=1148
-  _EMPTY._serialized_start=1150
-  _EMPTY._serialized_end=1157
-  _DRIVERDETAILS._serialized_start=1160
-  _DRIVERDETAILS._serialized_end=1396
-  _ADMINDETAILS._serialized_start=1398
-  _ADMINDETAILS._serialized_end=1488
-  _CUSTOMERDETAILS._serialized_start=1490
-  _CUSTOMERDETAILS._serialized_end=1599
-  _USERPROFILEDETAILS._serialized_start=1601
-  _USERPROFILEDETAILS._serialized_end=1684
-  _RIDE._serialized_start=1687
-  _RIDE._serialized_end=2597
+  _AVAILABLEDRIVERS._serialized_start=25
+  _AVAILABLEDRIVERS._serialized_end=247
+  _AVAILABLEDRIVERS_DRIVERS._serialized_start=103
+  _AVAILABLEDRIVERS_DRIVERS._serialized_end=247
+  _PAYMENTSTATUS._serialized_start=250
+  _PAYMENTSTATUS._serialized_end=393
+  _PAYMENTSTATUS_STATUSTYPE._serialized_start=339
+  _PAYMENTSTATUS_STATUSTYPE._serialized_end=393
+  _DRIVERAVAILABILITYSTATUS._serialized_start=396
+  _DRIVERAVAILABILITYSTATUS._serialized_end=563
+  _DRIVERAVAILABILITYSTATUS_STATUSTYPE._serialized_start=506
+  _DRIVERAVAILABILITYSTATUS_STATUSTYPE._serialized_end=563
+  _BOOKINGID._serialized_start=565
+  _BOOKINGID._serialized_end=596
+  _BOOKINGSTATUS._serialized_start=599
+  _BOOKINGSTATUS._serialized_end=758
+  _BOOKINGSTATUS_STATUSTYPE._serialized_start=688
+  _BOOKINGSTATUS_STATUSTYPE._serialized_end=758
+  _BOOKINGDETAILS._serialized_start=761
+  _BOOKINGDETAILS._serialized_end=1030
+  _ACKNOWLEDGEMENT._serialized_start=1032
+  _ACKNOWLEDGEMENT._serialized_end=1067
+  _DRIVERVERIFICATIONSTATUS._serialized_start=1069
+  _DRIVERVERIFICATIONSTATUS._serialized_end=1150
+  _ALLDRIVERSDOCS._serialized_start=1152
+  _ALLDRIVERSDOCS._serialized_end=1217
+  _SINGLEDRIVERDOCS._serialized_start=1220
+  _SINGLEDRIVERDOCS._serialized_end=1373
+  _EMPTY._serialized_start=1375
+  _EMPTY._serialized_end=1382
+  _DRIVERDETAILS._serialized_start=1385
+  _DRIVERDETAILS._serialized_end=1716
+  _DRIVERDETAILS_STATUSTYPE._serialized_start=506
+  _DRIVERDETAILS_STATUSTYPE._serialized_end=563
+  _ADMINDETAILS._serialized_start=1718
+  _ADMINDETAILS._serialized_end=1808
+  _CUSTOMERDETAILS._serialized_start=1810
+  _CUSTOMERDETAILS._serialized_end=1919
+  _USERPROFILEDETAILS._serialized_start=1921
+  _USERPROFILEDETAILS._serialized_end=2004
+  _RIDE._serialized_start=2007
+  _RIDE._serialized_end=2991
 # @@protoc_insertion_point(module_scope)

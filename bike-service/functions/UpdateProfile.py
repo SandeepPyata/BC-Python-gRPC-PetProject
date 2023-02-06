@@ -19,7 +19,7 @@ def UpdateUserProfile(request, mydb, main_pb2):
         return main_pb2.Acknowledgement(response=f'{details["name"]} profile updated')
     except mydb.Error as e:
         raise e
-    except:
+    except Exception as e:
         raise e
     finally:
         if mydb.open:

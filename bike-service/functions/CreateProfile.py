@@ -25,7 +25,7 @@ def CreateCustomer(request, mydb, main_pb2):
 
     except mydb.Error as e:
         raise e
-    except:
+    except Exception as e:
         raise e
     finally:
         if mydb.open:
@@ -58,7 +58,7 @@ def CreateAdmin(request, mydb, main_pb2):
 
     except mydb.Error as e:
         raise e
-    except:
+    except Exception as e:
         raise e
     finally:
         if mydb.open:
@@ -108,7 +108,7 @@ def CreateDriver(request, mydb, main_pb2):
 
     except mydb.Error as e:
         raise e
-    except:
+    except Exception as e:
         raise e
     finally:
         if mydb.open:

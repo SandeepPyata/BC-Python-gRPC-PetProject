@@ -1,4 +1,5 @@
 from dateutil.parser import parse
+from functions import Email_Service
 
 
 def CreateBooking(request, mydb, main_pb2):
@@ -23,11 +24,32 @@ def CreateBooking(request, mydb, main_pb2):
                drop_location_text, pickup_location_lat, pickup_location_long, drop_location_lat, drop_location_long)
         mycursor = mydb.cursor()
         mycursor.execute(sql, val)
+
+        # Change driver availability status to in-trip in Driver table
+        sql = 'UPDATE Driver SET current_status = 2 where id=%s'
+        mycursor = mydb.cursor()
+        mycursor.execute(sql, (driver_id,))
+
+        # Send Email notification to customer
+        # Fetch customer details
+        sql = 'SELECT u.name, u.email_id from User u where u.id=%s'
+        myresult = mycursor.execute(sql, (customer_id,))
+        result = list(list(mycursor.fetchall())[0])
+        customer_name, customer_email = result[0], result[1]
+
+        # Fetch driver details
+        sql = 'SELECT u.name from User u where u.id=%s'
+        myresult = mycursor.execute(sql, (driver_id,))
+        result = list(list(mycursor.fetchall())[0])
+        driver_name = result[0]
+        Email_Service.Send_Email(
+            customer_email, f'Bike booked by {customer_name}; Allocated driver: {driver_name}')
+
         mydb.commit()
         return main_pb2.Acknowledgement(response=f"Bike booked from {pickup_location_text} to {drop_location_text}")
     except mydb.Error as e:
         raise e
-    except:
+    except Exception as e:
         raise e
     finally:
         if mydb.open:
@@ -54,7 +76,7 @@ def CancelBooking(request, mydb, main_pb2):
         return main_pb2.Acknowledgement(response=ack)
     except mydb.Error as e:
         raise e
-    except:
+    except Exception as e:
         raise e
     finally:
         if mydb.open:

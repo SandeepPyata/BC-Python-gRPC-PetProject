@@ -18,7 +18,7 @@ def UpdateBookingStatus(request, mydb, main_pb2):
         return main_pb2.Acknowledgement(response=f"Booking status updated to {status[booking_status_code]}")
     except mydb.Error as e:
         raise e
-    except:
+    except Exception as e:
         raise e
     finally:
         if mydb.open:
@@ -44,7 +44,7 @@ def UpdateDriverStatus(request, mydb, main_pb2):
         return main_pb2.Acknowledgement(response=f"Driver current status updated to {status[status_code]}")
     except mydb.Error as e:
         raise e
-    except:
+    except Exception as e:
         raise e
     finally:
         if mydb.open:
@@ -71,7 +71,7 @@ def UpdatePaymentStatus(request, mydb, main_pb2):
         return main_pb2.Acknowledgement(response=f"Payment status updated to {status[payment_status_code]}")
     except mydb.Error as e:
         raise e
-    except:
+    except Exception as e:
         raise e
     finally:
         if mydb.open:

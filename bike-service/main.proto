@@ -5,33 +5,32 @@ package mainFile;
 service Ride
 {
     // Creation of roles - INSERT
-    rpc CreateUser(CreateUserRequest) returns (CreateUserResponse){};
-
-    // rpc CreateCustomer(CustomerDetails) returns(CustomerDetails){};
-    // rpc CreateAdmin(AdminDetails) returns(AdminDetails){};
-    // rpc CreateDriver(DriverDetails) returns(DriverDetails){};
+    rpc CreateCustomer(CustomerDetails) returns(CustomerDetails){};
+    rpc CreateAdmin(AdminDetails) returns(AdminDetails){};
+    rpc CreateDriver(DriverDetails) returns(DriverDetails){};
 
     // Updation of roles' details(User Table) - Basic Info
-    rpc UpdateUserProfile(User) returns(User){};
+    rpc UpdateUserProfile(UserProfileDetails) returns(Acknowledgement){};
 
     // Admin Functions
-    rpc GetAllDrivers(Empty) returns (DriversList) {}
-    // rpc GetAllDriverDocs(Empty) returns(AllDriversDocs){};
-    rpc ToggleDriverVerification(Driver) returns(Driver){};
+    rpc GetAllDriverDocs(Empty) returns(AllDriversDocs){};
+    rpc UpdateVerifiedDriverStatus(DriverVerificationStatus) returns(Acknowledgement){};
 
     // Customer-Initiated Functions
-    rpc CreateBooking(Booking) returns(Booking){};       // Called Only after booked
+    rpc CreateBooking(BookingDetails) returns(Acknowledgement){};       // Called Only after booked
     // Called when trip is cancelled by customer/driver, Update booking status : cancelled, driver availability : available, payment status : not-applicable
-    rpc CancelBooking(Booking) returns(Booking){};
+    rpc CancelBooking(BookingId) returns(Acknowledgement){};
     
-    // Status related    
-    rpc UpdateBookingStatus(Booking) returns(Booking){};          // Called when trip is started/ended
-    rpc UpdateDriverAvailabilityStatus(Driver) returns(Driver){};
-    rpc UpdatePaymentStatus(Booking) returns(Booking){};          // Called after trip ended/cancelled
+    // Status related
+    // Called when trip is started/ended
+    rpc UpdateBookingStatus(BookingStatus) returns(Acknowledgement){};
+    rpc UpdateDriverStatus(DriverAvailabilityStatus) returns(Acknowledgement){};
+    // Called after trip ended/cancelled
+    rpc UpdatePaymentStatus(PaymentStatus) returns(Acknowledgement){};
 
     // Driver-Initiated(Related) Functions
-    rpc UploadDriverDocs(Driver) returns(Driver){};
-    // rpc GetAvailableDriversList(Empty) returns(DriversList){};
+    rpc UploadDriverDocs(SingleDriverDocs) returns(Acknowledgement){};
+    rpc GetAvailableDriversList(Empty) returns(AvailableDrivers){};
 }
 
 message AvailableDrivers {
@@ -68,6 +67,10 @@ message DriverAvailabilityStatus {
     StatusType status = 2;
 }
 
+message BookingId {
+    int32 booking_id = 1;
+}
+
 // booking_status=default "booked";
 message BookingStatus {
     int32 booking_id = 1;
@@ -80,8 +83,7 @@ message BookingStatus {
     StatusType status = 2;
 }
 
-message Booking {
-    int64 id = 1;
+message BookingDetails {
     string booked_time = 1;
     int32 final_fare = 2;
     int32 driver_id = 3;
@@ -104,36 +106,15 @@ message DriverVerificationStatus {
     string driver_verification_status = 2;
 }
 
-// message DriverFilters {
-//     StatusType status = 1;
-//     int32 rating = 2;
-//     int32 nearest = 3;
-// }
-
-message Driver {
-    User user = 1;
-    DriverDocs driver_docs = 2;
-    enum StatusType {
-        UNAVAILABLE = 0; // default status
-        AVAILABLE = 1;
-        IN_TRIP = 2;
-    }
-    StatusType status = 2;
-}
-
-message DriversList {
-    repetated Driver data = 1;
-}
-
 message AllDriversDocs {    
-    repeated DriverDocs driver_docs = 1;
+    repeated SingleDriverDocs driver_docs = 1;
 }
-message DriverDocs {
+message SingleDriverDocs {
+    int32 driver_id = 1;
     string bike_registration_number = 2;
     string license_docs_link = 3;
     string docs_link = 4;
-    User admin = 5;
-    // optional int32 admin_id = 5;
+    optional int32 admin_id = 5;
 }
 
 message Empty {}
@@ -167,39 +148,9 @@ message CustomerDetails {
     UserProfileDetails user = 4;
 }
 
-message User {
+message UserProfileDetails {
     string name = 1;
     string address = 2;
     uint64 phoneno = 3;
     string email = 4;
-}
-
-
-message Admin {
-    User user = 1;
-}
-
-message Customer {
-    User user = 1;
-    int32 rating = 3;
-    UserProfileDetails user = 4;
-}
-
-message CreateUserRequest {
-    typeof 
-    oneof user {
-        Admin admin = 2;
-        Customer customer = 3;
-        Driver driver = 4;
-
-    }
-}
-
-message CreateUserResponse {
-    typeof 
-    oneof user {
-        Admin admin = 2;
-        Customer customer = 3;
-        Driver driver = 4;
-    }
 }

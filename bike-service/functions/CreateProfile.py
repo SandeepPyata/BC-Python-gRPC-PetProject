@@ -65,6 +65,12 @@ def CreateAdmin(request, mydb, main_pb2):
         # Check if user exists
         CheckForUser(mycursor, user["email"], "Admin")
 
+        #  inserting into User table
+        sql = 'insert into User (typeOfUser, name, address, phone_no, email_id) values(%s,%s,%s,%s,%s)'
+        val = ('Customer', user["name"],
+               user["address"], user["phoneno"], user["email"])
+        mycursor.execute(sql, val)
+
         # Inserting into Customer as foreign key
         sql = 'insert into Admin(`User_id`) select `id` from User order by `id` desc limit 1'
         mycursor.execute(sql)
@@ -123,7 +129,7 @@ def CreateDriver(request, mydb, main_pb2):
         mycursor.execute(sql, val)
         mydb.commit()
 
-        return main_pb2.DriverDetails(id=last_inserted_id, typeOfUser="Driver", driver_availabilty_status="unavailable", driver_verified_status="unverified", user=user)
+        return main_pb2.DriverDetails(id=last_inserted_id, typeOfUser="Driver", driver_availabilty_status=0, driver_verified_status="unverified", user=user)
 
     except mydb.Error as e:
         raise e

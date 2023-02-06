@@ -9,9 +9,9 @@ def UpdateUserProfile(request, mydb, main_pb2):
 
     try:
         # Modifying User table
-        sql = 'UPDATE User SET address=%s, phone_no=%s, email_id=%s WHERE name=%s'
+        sql = 'UPDATE User SET address=%s, phone_no=%s, name=%s WHERE email_id=%s'
         val = (details["address"], details["phoneno"],
-               details["email"], details["name"])
+               details["name"], details["email"])
         mycursor = mydb.cursor()
         mycursor.execute(sql, val)
         mydb.commit()

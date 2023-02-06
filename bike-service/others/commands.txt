@@ -1,0 +1,41 @@
+
+pip install grpc
+pip install grpcio
+pip install grpcio-tools
+python -m pip install mysql-connector-python
+sudo apt install mysql-server
+pip install mysqlclient
+pip install PyMySQL
+pip install mysql-connector-python
+
+python -m grpc_tools.protoc -I../../protos --python_out=. --pyi_out=. --grpc_python_out=. ../../protos/helloworld.proto
+
+cd server
+ls server.py
+python server.py
+cd ..
+cd protos/
+python server.py
+cd Desktop/Python-Pet-Project/bike-service
+
+mysql -u root -p
+sudo -u mysql -p
+mysql --version
+sudo mysql_secure_installation
+sudo mysql -u root
+sudo -p mysql -u root
+sudo mysql -u root -p
+python server.py
+mysql.connector ---veriosn
+mysql.connector ---version
+python server.py
+mysql
+sudo mysql -u root -p
+
+git
+git status
+git branch <branch_name>
+git add .
+git reset -- folder/*
+git commit -m "M"
+git push origin --set-upstream origin branch_name

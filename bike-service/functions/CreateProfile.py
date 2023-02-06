@@ -1,3 +1,20 @@
+'''
+Considerations:
+1. No Driver/Admin/Customer uses same email for 2 profiles
+
+'''
+
+
+def CheckForUser(mycursor, email, typeOfUser):
+    try:
+        sql = 'select id from User where email_id=%s'
+        result = mycursor.execute(sql, (email,))
+        if (result != 0):
+            raise Exception(f"{typeOfUser} already exists")
+    except Exception as e:
+        raise e
+
+
 def CreateCustomer(request, mydb, main_pb2):
     user = {
         "name": request.user.name,
@@ -8,6 +25,9 @@ def CreateCustomer(request, mydb, main_pb2):
 
     try:
         mycursor = mydb.cursor()
+
+        # Check if user exists
+        CheckForUser(mycursor, user["email"], "Customer")
 
         #  inserting into User table
         sql = 'insert into User (typeOfUser, name, address, phone_no, email_id) values(%s,%s,%s,%s,%s)'
@@ -42,12 +62,8 @@ def CreateAdmin(request, mydb, main_pb2):
     try:
         mycursor = mydb.cursor()
 
-        #  inserting into User table
-        sql = 'insert into User (typeOfUser, name, address, phone_no, email_id) values(%s,%s,%s,%s,%s)'
-        val = ('Admin', user["name"],
-               user["address"], user["phoneno"], user["email"])
-        mycursor.execute(sql, val)
-        mydb.commit()
+        # Check if user exists
+        CheckForUser(mycursor, user["email"], "Admin")
 
         # Inserting into Customer as foreign key
         sql = 'insert into Admin(`User_id`) select `id` from User order by `id` desc limit 1'
@@ -83,6 +99,9 @@ def CreateDriver(request, mydb, main_pb2):
     }
     try:
         mycursor = mydb.cursor()
+
+        # Check if user exists
+        CheckForUser(mycursor, user["email"], "Driver")
 
         #  inserting into User table
         sql = 'insert into User (typeOfUser, name, address, phone_no, email_id) values(%s,%s,%s,%s,%s)'

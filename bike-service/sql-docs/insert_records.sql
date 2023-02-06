@@ -2,9 +2,9 @@ use mydatabase;
 
 -- User Data Insertion
 insert into User (id, typeOfUser, name, address, phone_no, email_id) values (1, 'Admin', 'Admin1', '564 Loomis Drive', '4571734216','jalcott0@google.pl');
-insert into User (id, typeOfUser, name, address, phone_no, email_id) values (2, 'Customer', 'Customer1', '47482 Division Park', '3789338518','19BD1A1239@gmail.com');
+insert into User (id, typeOfUser, name, address, phone_no, email_id) values (2, 'Customer', 'Customer1', '47482 Division Park', '3789338518','pyatasandeep1234567890@gmail.com');
 insert into User (id, typeOfUser, name, address, phone_no, email_id) values (3, 'Driver', 'Driver1','7 Carpenter Place', '4547285164','19BD1A1@yellowpages.com');
-insert into User (id, typeOfUser, name, address, phone_no, email_id) values (4, 'Driver', 'Driver2','77235 Prentice Parkway','5172524091','19BD1A1239@gmail.com');
+insert into User (id, typeOfUser, name, address, phone_no, email_id) values (4, 'Driver', 'Driver2','77235 Prentice Parkway','5172524091','pyatastorage2022@gmail.pl');
 insert into User (id, typeOfUser, name, address, phone_no, email_id) values (5, 'Customer','Customer2', '2293 Larry Plaza',  '8234259217','19BD1A1239@gmail.com');
 insert into User (id, typeOfUser, name, address, phone_no, email_id) values (6, 'Admin', 'Admin2','0054 Tony Terrace','2919987876','kalflat5@skype.com');
 

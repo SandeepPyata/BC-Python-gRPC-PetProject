@@ -10,7 +10,7 @@ CREATE TABLE User (
    name varchar(100) NOT NULL,
    address varchar(100) NOT NULL,
    phone_no bigint NOT NULL,
-   email_id varchar(100) NOT NULL,
+   email_id varchar(100) UNIQUE NOT NULL,
    CONSTRAINT User_pk PRIMARY KEY (id)
 );
 

@@ -1,0 +1,135 @@
+# Sending cancelled notification to customer
+sql = 'select u.email_id from User where id=(select id from Customer where id=(select b.customer_id from Bookings where booking_id=%s))'
+mycursor.execute(sql, (booking_id,))
+result = list(mycursor.fetchall()[0])
+Email_Service.Send_Email()
+
+
+-- insert into Customer (id, User_id, rating) values (3, 3, 1.9);
+-- insert into Customer (id, User_id, rating) values (4, 4, 4.3);
+-- insert into Customer (id, User_id, rating) values (5, 5, 2.7);
+-- insert into Customer (id, User_id, rating) values (6, 6, 1.9);
+
+-- insert into Admin (id, User_id) values (3, 3);
+-- insert into Admin (id, User_id) values (4, 4);
+-- insert into Admin (id, User_id) values (5, 5);
+-- insert into Admin (id, User_id) values (6, 6);
+
+-- insert into Driver (id, User_id, current_location_lat, current_location_long, is_verified_status, rating, current_status) values (3, 3, 38.25148, 20.71688, 'verified', 2, 1);
+-- insert into Driver (id, User_id, current_location_lat, current_location_long, is_verified_status, rating, current_status) values (4, 4, 43.73787, 21.23004, 'verified', 1, 0);
+-- insert into Driver (id, User_id, current_location_lat, current_location_long, is_verified_status, rating, current_status) values (5, 5, 16.50333, 95.99816, 'verified', 2, 1);
+-- insert into Driver (id, User_id, current_location_lat, current_location_long, is_verified_status, rating, current_status) values (6, 6, 27.96014, 69.32364, 'verified', 2, 2);
+
+insert into Driver_Docs (id, bike_registration_number, license_docs_link, Admin_id, Driver_id, docs_link) values (3, 'HR26DQ555', 'https://archive.org/download/richdadpoordadhindi/Rich%20dad%20poor%20dad%20Hindi.pdf',3, 3, 'https://drive.google.com/file/d/0B1HXnM1lBuoqMzVhZjcwNTAtZWI5OS00ZDg3LWEyMzktNzZmYWY2Y2NhNWQx/view?hl=en&resourcekey=0-5DqnTtXPFvySMiWstuAYdA');
+insert into Driver_Docs (id, bike_registration_number, license_docs_link, Admin_id, Driver_id, docs_link) values (4, 'HR26DQ556', 'http://fop86.com/Rich%20Dad%20Poor%20Dad/Rich%20Dad%20Poor%20Dad.pdf',4, 4, 'https://drive.google.com/file/d/0B1HXnM1lBuoqMzVhZjcwNTAtZWI5OS00ZDg3LWEyMzktNzZmYWY2Y2NhNWQx/view?hl=en&resourcekey=0-5DqnTtXPFvySMiWstuAYdA');
+insert into Driver_Docs (id, bike_registration_number, license_docs_link, Admin_id, Driver_id, docs_link) values (5, 'HR26DQ557', 'https://camaapearl.files.wordpress.com/2016/02/cashflow1.pdf',5, 5, 'https://drive.google.com/file/d/0B1HXnM1lBuoqMzVhZjcwNTAtZWI5OS00ZDg3LWEyMzktNzZmYWY2Y2NhNWQx/view?hl=en&resourcekey=0-5DqnTtXPFvySMiWstuAYdA');
+insert into Driver_Docs (id, bike_registration_number, license_docs_link, Admin_id, Driver_id, docs_link) values (6, 'HR26DQ558', 'http://117.240.231.117:8081/jspui/bitstream/123456789/537/1/Rich%20Dad%27s%20Cashflow%20quadrant%20Guide%20to%20Financial%20Freedom.pdf',6, 6, 'https://drive.google.com/file/d/0B1HXnM1lBuoqMzVhZjcwNTAtZWI5OS00ZDg3LWEyMzktNzZmYWY2Y2NhNWQx/view?hl=en&resourcekey=0-5DqnTtXPFvySMiWstuAYdA');
+
+# # Getting last inserted row id from User table
+# myresult = mycursor.execute(
+#     'select id from User order by id desc limit 1')
+# myresult = mycursor.fetchall()
+# last_inserted_id = list(myresult[0])[0]
+
+//Bookings 
+-- Table: Bookings
+CREATE TABLE Bookings (
+   booking_id int NOT NULL AUTO_INCREMENT,
+   booked_time timestamp NOT NULL,
+   final_fare int NOT NULL,
+   booking_status int NOT NULL,
+   payment_status int NOT NULL,
+   Driver_driver_id int NOT NULL,
+   Customer_customer_id int NOT NULL,
+   pickup_location_text text NOT NULL,
+   drop_location_text text NOT NULL,
+   pickup_lat decimal(7,5) NOT NULL,
+   pickup_long decimal(7,5) NOT NULL,
+   drop_lat decimal(7,5) NOT NULL,
+   drop_long decimal(7,5) NOT NULL,
+   CONSTRAINT Bookings_pk PRIMARY KEY (booking_id)
+);
+
+
+convert to date-time in sql
+select str_to_date('2022-10-17 08:41:27','%Y-%m-%d %H:%i:%s') as 'Hello';
+
+# Printing after insertion
+myresult = mycursor.execute('select * from User')
+myresult = mycursor.fetchall()
+for x in myresult:
+    print(x)
+
+
+# Removing prev values
+sql = 'delete from Customer where id=(select id from User where name="Hello");'
+mycursor.execute(sql)
+sql = 'delete from User where name="Hello";'
+mycursor.execute(sql)
+mydb.commit()
+
+# Removing prev values
+sql = 'delete from Admin where id=(select id from User where name="Hello");'
+mycursor.execute(sql)
+sql = 'delete from User where name="Hello"'
+mycursor.execute(sql)
+mydb.commit()
+
+
+# Removing prev values
+sql = 'delete from Driver where id in (select id from User where name="Driver");'
+mycursor.execute(sql)
+sql = 'delete from User where name="Driver1"'
+mycursor.execute(sql)
+mydb.commit()
+
+mycursor.execute('select id from User where name=%s', (user["name"]))
+id = list(mycursor.fetchall()[0])[0]
+
+
+# Fetch TypeOfUser Based On ID
+sql = 'SELECT typeOfUser FROM User where email_id=%s'
+self.mycursor.execute(sql,(details["email"]))
+typeOfUser = list(self.mycursor.fetchall()[0])[0]
+
+old rpc functions
+// Updating details of all users - ALTER
+// rpc UpdateCustomerDetails(CustomerDetails) returns(CustomerDetails){};
+// rpc UpdateAdminDetails(AdminDetails) returns(AdminDetails){};
+// rpc UpdateDriverDetails(DriverDetails) returns(DriverDetails){};
+
+
+
+'''
+def UpdateCustomerDetails(self, request, context):
+    user = {
+        "name": request.user.name,
+        "address": request.user.address,
+        "phoneno": request.user.phoneno,
+        "email": request.user.email,
+    }
+    self.UpdateUserProfile(user)
+    return main_pb2.CustomerDetails(typeOfUser="Customer", user=user)
+
+
+def UpdateAdminDetails(self, request, context):
+    user = {
+        "name": request.user.name,
+        "address": request.user.address,
+        "phoneno": request.user.phoneno,
+        "email": request.user.email,
+    }
+    self.UpdateUserProfile(user)
+    return main_pb2.AdminDetails(typeOfUser="Admin", user=user)
+
+
+def UpdateDriverDetails(self, request, context):
+    user = {
+        "name": request.user.name,
+        "address": request.user.address,
+        "phoneno": request.user.phoneno,
+        "email": request.user.email,
+    }
+    self.UpdateUserProfile(user)
+    return main_pb2.DriverDetails(typeOfUser="Driver", user=user)
+'''

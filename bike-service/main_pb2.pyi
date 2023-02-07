@@ -50,7 +50,8 @@ class AvailableDrivers(_message.Message):
     def __init__(self, driver_list: _Optional[_Iterable[_Union[AvailableDrivers.Drivers, _Mapping]]] = ...) -> None: ...
 
 class BookingDetails(_message.Message):
-    __slots__ = ["booked_time", "customer_id", "driver_id", "drop_location_lat", "drop_location_long", "drop_location_text", "final_fare", "pickup_location_lat", "pickup_location_long", "pickup_location_text"]
+    __slots__ = ["booked", "booked_time", "customer_id", "driver_id", "drop_location_lat", "drop_location_long", "drop_location_text", "final_fare", "pickup_location_lat", "pickup_location_long", "pickup_location_text"]
+    BOOKED_FIELD_NUMBER: _ClassVar[int]
     BOOKED_TIME_FIELD_NUMBER: _ClassVar[int]
     CUSTOMER_ID_FIELD_NUMBER: _ClassVar[int]
     DRIVER_ID_FIELD_NUMBER: _ClassVar[int]
@@ -61,6 +62,7 @@ class BookingDetails(_message.Message):
     PICKUP_LOCATION_LAT_FIELD_NUMBER: _ClassVar[int]
     PICKUP_LOCATION_LONG_FIELD_NUMBER: _ClassVar[int]
     PICKUP_LOCATION_TEXT_FIELD_NUMBER: _ClassVar[int]
+    booked: bool
     booked_time: str
     customer_id: int
     driver_id: int
@@ -71,7 +73,7 @@ class BookingDetails(_message.Message):
     pickup_location_lat: float
     pickup_location_long: float
     pickup_location_text: str
-    def __init__(self, booked_time: _Optional[str] = ..., final_fare: _Optional[int] = ..., driver_id: _Optional[int] = ..., customer_id: _Optional[int] = ..., pickup_location_text: _Optional[str] = ..., drop_location_text: _Optional[str] = ..., pickup_location_lat: _Optional[float] = ..., pickup_location_long: _Optional[float] = ..., drop_location_lat: _Optional[float] = ..., drop_location_long: _Optional[float] = ...) -> None: ...
+    def __init__(self, booked_time: _Optional[str] = ..., final_fare: _Optional[int] = ..., driver_id: _Optional[int] = ..., customer_id: _Optional[int] = ..., pickup_location_text: _Optional[str] = ..., drop_location_text: _Optional[str] = ..., pickup_location_lat: _Optional[float] = ..., pickup_location_long: _Optional[float] = ..., drop_location_lat: _Optional[float] = ..., drop_location_long: _Optional[float] = ..., booked: bool = ...) -> None: ...
 
 class BookingId(_message.Message):
     __slots__ = ["booking_id"]

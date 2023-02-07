@@ -1,12 +1,13 @@
 from dateutil.parser import parse
 from functions import Email_Service
+import haversine as hs
+import sys
 
 
 def CreateBooking(request, mydb, main_pb2):
 
     booked_time = parse(request.booked_time, fuzzy=True)
     final_fare = request.final_fare
-    driver_id = request.driver_id
     customer_id = request.customer_id
     booking_status = 0
     payment_status = 0
@@ -16,8 +17,40 @@ def CreateBooking(request, mydb, main_pb2):
     pickup_location_long = request.pickup_location_long
     drop_location_lat = request.drop_location_lat
     drop_location_long = request.drop_location_long
-
+    booked = 0
     try:
+        # Fetch available drivers
+        sql = 'SELECT d.id, u.name, u.phone_no, d.current_location_lat, d.current_location_long, d.rating from Driver d, User u where d.is_verified_status="verified" and d.current_status=1 and u.typeOfUser="Driver" and d.User_id=u.id'
+        mycursor = mydb.cursor()
+        mycursor.execute(sql)
+        result = mycursor.fetchall()
+
+        if (result.count() == 0):
+            return main_pb2.Acknowledgement(booked=False)
+
+        distance = sys.maxint
+        driver_id = 0
+        for row in result:
+            dict = {
+                "driver_id": row[0],
+                "driver_name": row[1],
+                "phone_no": row[2],
+                "current_location_lat": row[3],
+                "current_location_long": row[4],
+                "rating": row[5],
+            }
+
+            # Allocate nearest-available driver
+            customer_coordinates = (pickup_location_lat, pickup_location_long)
+            driver_coordinates = (
+                dict["current_location_lat"], dict["current_location_long"])
+
+            dist_btw_geo_locations = hs.haversine(
+                customer_coordinates, driver_coordinates)
+            if dist_btw_geo_locations < distance:
+                distance = dist_btw_geo_locations
+                driver_id = dict["driver_id"]
+
         # Insert Into Booking Table
         sql = 'INSERT INTO Bookings (booked_time, final_fare, booking_status, payment_status, Driver_id, Customer_id, pickup_location_text, drop_location_text, pickup_lat, pickup_long, drop_lat, drop_long) values(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'
         val = (booked_time, final_fare, booking_status, payment_status,  driver_id, customer_id, pickup_location_text,

@@ -23,31 +23,31 @@ def UploadDriverDocs(request, mydb, main_pb2):
             mycursor.close()
 
 
-def GetAvailableDriversList(request, mydb, main_pb2):
-    try:
-        # Fetching From Driver table
-        sql = 'SELECT d.id, u.name, u.phone_no, d.current_location_lat, d.current_location_long, d.rating from Driver d, User u where d.is_verified_status="verified" and d.current_status=1 and u.typeOfUser="Driver" and d.User_id=u.id'
-        mycursor = mydb.cursor()
-        mycursor.execute(sql)
-        result = mycursor.fetchall()
-        docs_list = []
+# def GetAvailableDriversList(request, mydb, main_pb2):
+#     try:
+#         # Fetching From Driver table
+#         sql = 'SELECT d.id, u.name, u.phone_no, d.current_location_lat, d.current_location_long, d.rating from Driver d, User u where d.is_verified_status="verified" and d.current_status=1 and u.typeOfUser="Driver" and d.User_id=u.id'
+#         mycursor = mydb.cursor()
+#         mycursor.execute(sql)
+#         result = mycursor.fetchall()
+#         docs_list = []
 
-        for row in result:
-            dict = {
-                "driver_id": row[0],
-                "driver_name": row[1],
-                "phone_no": row[2],
-                "current_location_lat": row[3],
-                "current_location_long": row[4],
-                "rating": row[5],
-            }
-            docs_list.append(dict)
-        return main_pb2.AvailableDrivers(driver_list=docs_list)
+#         for row in result:
+#             dict = {
+#                 "driver_id": row[0],
+#                 "driver_name": row[1],
+#                 "phone_no": row[2],
+#                 "current_location_lat": row[3],
+#                 "current_location_long": row[4],
+#                 "rating": row[5],
+#             }
+#             docs_list.append(dict)
+#         return main_pb2.AvailableDrivers(driver_list=docs_list)
 
-    except mydb.Error as e:
-        raise e
-    except Exception as e:
-        raise e
-    finally:
-        if mydb.open:
-            mycursor.close()
+#     except mydb.Error as e:
+#         raise e
+#     except Exception as e:
+#         raise e
+#     finally:
+#         if mydb.open:
+#             mycursor.close()

@@ -94,6 +94,7 @@ message BookingDetails {
     double pickup_location_long = 8;
     double drop_location_lat = 9;
     double drop_location_long = 10;
+    bool booked = 11;
 }
 
 

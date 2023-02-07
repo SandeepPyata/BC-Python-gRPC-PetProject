@@ -24,11 +24,10 @@ def CreateBooking(request, mydb, main_pb2):
         mycursor = mydb.cursor()
         mycursor.execute(sql)
         result = mycursor.fetchall()
+        if (len(result) == 0):
+            return main_pb2.Acknowledgement(response="No bike booked")
 
-        if (result.count() == 0):
-            return main_pb2.Acknowledgement(booked=False)
-
-        distance = sys.maxint
+        distance = sys.maxsize
         driver_id = 0
         for row in result:
             dict = {
